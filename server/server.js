@@ -27,10 +27,9 @@ try {
 const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
 
 if (!STRIPE_SECRET_KEY || STRIPE_SECRET_KEY.includes('REPLACE')) {
-    console.error('❌  Missing Stripe secret key!');
-    console.error('    → Open server/.env and replace STRIPE_SECRET_KEY with your real sk_test_... key.');
-    console.error('    → Get it from: https://dashboard.stripe.com/test/apikeys');
-    process.exit(1);
+    console.warn('⚠️  Missing Stripe secret key! Payments will not work.');
+} else {
+    console.log('✅ Stripe key found.');
 }
 
 
@@ -266,15 +265,18 @@ app.post('/verify-password', (req, res) => {
 // Handle React routing (must be LAST)
 app.get('*', (req, res) => {
     const indexPath = resolve(__dirname, '../dist/index.html');
+    console.log(`🔍 Request: ${req.path} | Searching for index at: ${indexPath}`);
     if (existsSync(indexPath)) {
         res.sendFile(indexPath);
     } else {
+        console.error('❌ Frontend build NOT found at:', indexPath);
         res.status(404).send('Frontend not built yet. Run npm run build.');
     }
 });
 
-const PORT = process.env.PORT || 3001;
-app.listen(PORT, '0.0.0.0', () => {
-    console.log(`🚀 Server running on port ${PORT}`);
-    console.log(`👉 API ready at http://localhost:${PORT}`);
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`🚀 Server fully started on port ${PORT}`);
+    console.log(`📂 Node version: ${process.version}`);
+    console.log(`📁 Root dir: ${__dirname}`);
 });
