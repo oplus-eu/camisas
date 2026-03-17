@@ -1,0 +1,22 @@
+# Como Publicar na Hostinger (Guia Rápido)
+
+Siga estes passos para colocar sua loja no ar:
+
+1. **Suba os arquivos**: 
+   Acesse o Gerenciador de Arquivos da Hostinger e suba as seguintes pastas e arquivos para o seu diretório raiz:
+   - Pasta `dist` (Contém o site pronto)
+   - Pasta `server` (Contém o servidor de pagamentos/e-mails)
+   - Arquivo `package.json` (Define as dependências)
+   - Arquivo `server/.env` (Sua configuração de segredo e e-mail)
+
+2. **Configure o Node.js**:
+   No painel da Hostinger (hPanel), procure por "Node.js" e:
+   - Selecione a pasta onde você subiu os arquivos como "Application Root".
+   - Defina o "Main File" como: `server/server.js`.
+   - Clique em "Instalar dependências" (Install Dependencies).
+   - Inicie o aplicativo (Start/Run).
+
+3. **Segurança do .env**:
+   Certifique-se de que o arquivo `server/.env` tenha as informações corretas e a nova senha que você definiu.
+
+Pronto! Seu site estará online e guardando os pedidos mesmo após atualizações.
