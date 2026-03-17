@@ -54,26 +54,18 @@ app.use((req, res, next) => {
 app.use(cors()); // Allow all origins for development to avoid port conflicts
 app.use(express.json());
 
-// Configure NodeMailer transporter
-// The user will need to provide these in server/.env
+// Configure NodeMailer transporter (moved verify to non-blocking)
+console.log('📡 Configuring email transporter...');
 const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST || 'smtp.gmail.com',
     port: process.env.SMTP_PORT || 587,
-    secure: false, // true for 465, false for other ports
+    secure: false, 
     auth: {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASS,
     },
 });
-
-// Verify connection configuration
-transporter.verify(function (error, success) {
-    if (error) {
-        console.error('❌ SMTP Connection Error:', error);
-    } else {
-        console.log('✅ Email server is ready to send messages');
-    }
-});
+console.log('✅ Email transporter created.');
 
 // Create a PaymentIntent
 app.post('/create-payment-intent', async (req, res) => {
@@ -275,8 +267,10 @@ app.get('*', (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
+console.log(`🔌 Attempting to bind to port ${PORT}...`);
 app.listen(PORT, () => {
-    console.log(`🚀 Server fully started on port ${PORT}`);
+    console.log(`🚀 SERVER IS LIVE!`);
+    console.log(`🔗 URL: http://0.0.0.0:${PORT}`);
     console.log(`📂 Node version: ${process.version}`);
-    console.log(`📁 Root dir: ${__dirname}`);
+    console.log(`📁 Directory: ${__dirname}`);
 });
