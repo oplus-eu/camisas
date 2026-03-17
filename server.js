@@ -42,7 +42,7 @@ app.get('/api-status', (req, res) => {
 });
 
 // Serve frontend static files after the build
-const distPath = resolve(__dirname, '../dist');
+const distPath = resolve(__dirname, 'dist');
 app.use(express.static(distPath));
 
 // Request logger (MOVE TO TOP)
@@ -264,7 +264,7 @@ app.post('/verify-password', (req, res) => {
 
 // Handle React routing (must be LAST)
 app.get('*', (req, res) => {
-    const indexPath = resolve(__dirname, '../dist/index.html');
+    const indexPath = resolve(__dirname, 'dist/index.html');
     console.log(`🔍 Request: ${req.path} | Searching for index at: ${indexPath}`);
     if (existsSync(indexPath)) {
         res.sendFile(indexPath);
