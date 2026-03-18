@@ -22,6 +22,13 @@ function CheckoutForm({ total, email: initialEmail, items, deliveryDetails, onSu
     const elements = useElements();
     const [isProcessing, setIsProcessing] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+    const [isMounted, setIsMounted] = useState(false);
+
+    // Common mobile fix: wait for animations/transitions to settle before rendering the sensitive iframe
+    useEffect(() => {
+        const timer = setTimeout(() => setIsMounted(true), 400);
+        return () => clearTimeout(timer);
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -109,12 +116,14 @@ function CheckoutForm({ total, email: initialEmail, items, deliveryDetails, onSu
                     border: '1px solid var(--color-border)',
                     borderRadius: '4px',
                     backgroundColor: 'var(--color-bg-base)',
-                    height: '44px',
+                    minHeight: '44px',
                     overflow: 'visible',
                     position: 'relative',
-                    zIndex: 1
+                    zIndex: 999, // Force it to the top
+                    pointerEvents: 'auto', // Ensure it's interactive
+                    cursor: 'text'
                 }}>
-                    <CardElement options={CARD_ELEMENT_OPTIONS} />
+                    {isMounted && <CardElement options={CARD_ELEMENT_OPTIONS} />}
                 </div>
                 <p style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)', marginTop: 'var(--space-2)' }}>
                     Test card: 4242 4242 4242 4242 &nbsp;|&nbsp; Any future date &nbsp;|&nbsp; Any CVC
