@@ -194,30 +194,30 @@ export default function Cart({ isOpen, onClose, cartItems, onRemoveItem, onUpdat
                                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-4)' }}>
                                     <div>
                                         <label style={labelStyle}>{t.firstName}</label>
-                                        <input required type="text" style={inputStyle} value={deliveryDetails.firstName} onChange={e => setDeliveryDetails({ ...deliveryDetails, firstName: e.target.value })} />
+                                        <input required type="text" autoComplete="given-name" style={inputStyle} value={deliveryDetails.firstName} onChange={e => setDeliveryDetails({ ...deliveryDetails, firstName: e.target.value })} />
                                     </div>
                                     <div>
                                         <label style={labelStyle}>{t.lastName}</label>
-                                        <input required type="text" style={inputStyle} value={deliveryDetails.lastName} onChange={e => setDeliveryDetails({ ...deliveryDetails, lastName: e.target.value })} />
+                                        <input required type="text" autoComplete="family-name" style={inputStyle} value={deliveryDetails.lastName} onChange={e => setDeliveryDetails({ ...deliveryDetails, lastName: e.target.value })} />
                                     </div>
                                 </div>
                                 <div>
                                     <label style={labelStyle}>{t.address}</label>
-                                    <input required type="text" style={inputStyle} value={deliveryDetails.address} onChange={e => setDeliveryDetails({ ...deliveryDetails, address: e.target.value })} />
+                                    <input required type="text" autoComplete="street-address" style={inputStyle} value={deliveryDetails.address} onChange={e => setDeliveryDetails({ ...deliveryDetails, address: e.target.value })} />
                                 </div>
                                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-4)' }}>
                                     <div>
                                         <label style={labelStyle}>{t.city}</label>
-                                        <input required type="text" style={inputStyle} value={deliveryDetails.city} onChange={e => setDeliveryDetails({ ...deliveryDetails, city: e.target.value })} />
+                                        <input required type="text" autoComplete="address-level2" style={inputStyle} value={deliveryDetails.city} onChange={e => setDeliveryDetails({ ...deliveryDetails, city: e.target.value })} />
                                     </div>
                                     <div>
                                         <label style={labelStyle}>{t.zipCode}</label>
-                                        <input required type="text" style={inputStyle} value={deliveryDetails.zip} onChange={e => setDeliveryDetails({ ...deliveryDetails, zip: e.target.value })} />
+                                        <input required type="text" autoComplete="postal-code" style={inputStyle} value={deliveryDetails.zip} onChange={e => setDeliveryDetails({ ...deliveryDetails, zip: e.target.value })} />
                                     </div>
                                 </div>
                                 <div>
                                     <label style={labelStyle}>{t.country}</label>
-                                    <select required style={inputStyle} value={deliveryDetails.country} onChange={e => setDeliveryDetails({ ...deliveryDetails, country: e.target.value })}>
+                                    <select required autoComplete="country" style={inputStyle} value={deliveryDetails.country} onChange={e => setDeliveryDetails({ ...deliveryDetails, country: e.target.value })}>
                                         <option value="" disabled>{t.selectCountry}</option>
                                         <option value="PT">Portugal</option>
                                         <option value="NL">Netherlands</option>
@@ -232,16 +232,16 @@ export default function Cart({ isOpen, onClose, cartItems, onRemoveItem, onUpdat
                                 </div>
                                 <div>
                                     <label style={labelStyle}>{t.email}</label>
-                                    <input required type="email" style={inputStyle} value={deliveryDetails.email} onChange={e => { setDeliveryDetails({ ...deliveryDetails, email: e.target.value }); setEmailError(''); }} />
+                                    <input required type="email" autoComplete="email" style={inputStyle} value={deliveryDetails.email} onChange={e => { setDeliveryDetails({ ...deliveryDetails, email: e.target.value }); setEmailError(''); }} />
                                 </div>
                                 <div>
                                     <label style={labelStyle}>{t.confirmEmail}</label>
-                                    <input required type="email" style={{ ...inputStyle, borderColor: emailError ? '#ef4444' : undefined }} value={deliveryDetails.confirmEmail} onChange={e => { setDeliveryDetails({ ...deliveryDetails, confirmEmail: e.target.value }); setEmailError(''); }} />
+                                    <input required type="email" autoComplete="email" style={{ ...inputStyle, borderColor: emailError ? '#ef4444' : undefined }} value={deliveryDetails.confirmEmail} onChange={e => { setDeliveryDetails({ ...deliveryDetails, confirmEmail: e.target.value }); setEmailError(''); }} />
                                     {emailError && <p style={{ color: '#ef4444', fontSize: '0.75rem', marginTop: 'var(--space-1)', margin: 0 }}>{emailError}</p>}
                                 </div>
                                 <div>
                                     <label style={labelStyle}>{t.phone}</label>
-                                    <input required type="tel" style={inputStyle} value={deliveryDetails.phone} onChange={e => setDeliveryDetails({ ...deliveryDetails, phone: e.target.value })} />
+                                    <input required type="tel" autoComplete="tel" style={inputStyle} value={deliveryDetails.phone} onChange={e => setDeliveryDetails({ ...deliveryDetails, phone: e.target.value })} />
                                 </div>
                             </div>
                             <div style={{ marginTop: 'auto', padding: 'var(--space-6)', borderTop: '1px solid var(--color-border)', backgroundColor: 'var(--color-bg-surface)' }}>
@@ -256,7 +256,7 @@ export default function Cart({ isOpen, onClose, cartItems, onRemoveItem, onUpdat
                 {checkoutStep === 'payment' && (
                     <>
                         {renderCartHeader(t.payment, true)}
-                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflowY: 'auto' }}>
                             <div style={{ padding: 'var(--space-6)' }}>
                                 <StripePaymentForm
                                     total={checkoutTotal}
