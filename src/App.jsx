@@ -6,6 +6,7 @@ import ProductModal from './components/ProductModal';
 import Cart from './components/Cart';
 import SizeGuide from './components/SizeGuide';
 import AdminDashboard from './components/AdminDashboard';
+import ShippingReturns from './components/ShippingReturns';
 import productsData from './data/products.json';
 import { translations } from './data/translations';
 import './index.css';
@@ -15,13 +16,19 @@ function App() {
   const [cartItems, setCartItems] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [view, setView] = useState('shop'); // 'shop', 'size-guide', 'admin'
+  const [view, setView] = useState('shop'); // 'shop', 'size-guide', 'admin', 'shipping'
   const [isMusicPlaying, setIsMusicPlaying] = useState(true);
 
   const openSizeGuide = () => {
     setSelectedProduct(null);
     setIsCartOpen(false);
     setView('size-guide');
+  };
+
+  const openShipping = () => {
+    setSelectedProduct(null);
+    setIsCartOpen(false);
+    setView('shipping');
   };
 
   const openAdmin = () => {
@@ -165,6 +172,8 @@ function App() {
           </>
         ) : view === 'size-guide' ? (
           <SizeGuide onBack={() => setView('shop')} language={language} t={t} />
+        ) : view === 'shipping' ? (
+          <ShippingReturns onBack={() => setView('shop')} language={language} />
         ) : (
           <AdminDashboard onBack={() => setView('shop')} />
         )}
@@ -189,7 +198,7 @@ function App() {
           <div>
             <h4 style={{ color: 'var(--color-text-primary)', marginBottom: 'var(--space-4)', fontSize: '1rem' }}>{t.support}</h4>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, fontSize: '0.875rem', display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
-              <li><a href="#" style={{ color: 'inherit', textDecoration: 'none' }}>{t.shippingReturns}</a></li>
+              <li><button onClick={openShipping} style={{ background: 'transparent', border: 'none', padding: 0, color: 'inherit', font: 'inherit', cursor: 'pointer', textAlign: 'left' }}>{t.shippingReturns}</button></li>
               <li>
                 <button 
                   onClick={openSizeGuide}

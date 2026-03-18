@@ -79,12 +79,32 @@ try {
         }
     });
 
-    // Admin endpoint
+    // Admin endpoint (legacy header-based)
     app.get('/admin-orders', (req, res) => {
         const password = req.headers['x-admin-password'];
         if (password !== process.env.ADMIN_PASSWORD) {
             return res.status(401).json({ error: 'Unauthorized' });
         }
+        const dbPath = resolve(__dirname, 'server/db/orders.json');
+        if (existsSync(dbPath)) {
+            res.json(JSON.parse(readFileSync(dbPath, 'utf8')));
+        } else {
+            res.json([]);
+        }
+    });
+
+    // Admin: verify password (used by AdminDashboard login form)
+    app.post('/verify-password', (req, res) => {
+        const { password } = req.body;
+        if (password === process.env.ADMIN_PASSWORD) {
+            res.json({ ok: true });
+        } else {
+            res.status(401).json({ error: 'Unauthorized' });
+        }
+    });
+
+    // Admin: fetch all orders (used by AdminDashboard after login)
+    app.get('/orders', (req, res) => {
         const dbPath = resolve(__dirname, 'server/db/orders.json');
         if (existsSync(dbPath)) {
             res.json(JSON.parse(readFileSync(dbPath, 'utf8')));
