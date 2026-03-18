@@ -2,16 +2,15 @@ import { useState, useEffect } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || 'pk_test_51TBirxAG7XmMZYX99AUVS9NH0LCQbRjGHC1Wa6ILKCWGr6XNTJCIT3pCvjouI5MD564m4pcZ8sYPnTGiQLpefB8Y00cXvUp0oS');
 
 const CARD_ELEMENT_OPTIONS = {
     style: {
         base: {
             color: '#ffffff',
-            fontFamily: '"Outfit", system-ui, sans-serif',
+            fontFamily: 'system-ui, -apple-system, sans-serif',
             fontSize: '16px',
             '::placeholder': { color: '#a1a1aa' },
-            fontSmoothing: 'antialiased',
         },
         invalid: { color: '#ef4444', iconColor: '#ef4444' },
     },
@@ -119,11 +118,19 @@ function CheckoutForm({ total, email: initialEmail, items, deliveryDetails, onSu
                     minHeight: '44px',
                     overflow: 'visible',
                     position: 'relative',
-                    zIndex: 999, // Force it to the top
-                    pointerEvents: 'auto', // Ensure it's interactive
-                    cursor: 'text'
+                    zIndex: 999,
+                    pointerEvents: 'auto',
+                    cursor: 'text',
+                    display: 'flex',
+                    alignItems: 'center'
                 }}>
-                    {isMounted && <CardElement options={CARD_ELEMENT_OPTIONS} />}
+                    {isMounted ? (
+                        <div style={{ width: '100%', overflow: 'visible' }}>
+                            <CardElement options={CARD_ELEMENT_OPTIONS} />
+                        </div>
+                    ) : (
+                        <div style={{ color: 'var(--color-text-secondary)', fontSize: '0.85rem' }}>Loading payment field...</div>
+                    )}
                 </div>
                 <p style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)', marginTop: 'var(--space-2)' }}>
                     Test card: 4242 4242 4242 4242 &nbsp;|&nbsp; Any future date &nbsp;|&nbsp; Any CVC
