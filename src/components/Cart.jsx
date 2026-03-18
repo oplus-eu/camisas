@@ -2,7 +2,7 @@ import { X, Trash2, ChevronRight, ArrowLeft, CheckCircle } from 'lucide-react';
 import { useState, useEffect, useMemo } from 'react';
 import StripePaymentForm from './StripePaymentForm';
 
-export default function Cart({ isOpen, onClose, cartItems, onRemoveItem, onUpdateQuantity, onCheckout, t, language, onOpenSizeGuide }) {
+export default function Cart({ isOpen, onClose, cartItems, onRemoveItem, onUpdateQuantity, onCheckout, t, language, onOpenSizeGuide, initialStep }) {
     const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     const shipping = 0.00; // Free shipping promo active
     const total = subtotal + shipping;
@@ -17,7 +17,7 @@ export default function Cart({ isOpen, onClose, cartItems, onRemoveItem, onUpdat
         });
     }, [language]);
 
-    const [checkoutStep, setCheckoutStep] = useState('cart'); // 'cart', 'details', 'payment', 'success'
+    const [checkoutStep, setCheckoutStep] = useState(initialStep || 'cart'); // 'cart', 'details', 'payment', 'success'
 
     const [deliveryDetails, setDeliveryDetails] = useState({
         firstName: '', lastName: '', address: '', city: '', zip: '', country: '', email: '', confirmEmail: '', phone: ''

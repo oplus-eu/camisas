@@ -18,6 +18,7 @@ function App() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [view, setView] = useState('shop'); // 'shop', 'size-guide', 'admin', 'shipping'
   const [isMusicPlaying, setIsMusicPlaying] = useState(true);
+  const [cartInitialStep, setCartInitialStep] = useState('cart');
 
   const openSizeGuide = () => {
     setSelectedProduct(null);
@@ -59,6 +60,23 @@ function App() {
       collectionRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
+  // Check for successful payment on mount (returned from redirect)
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const clientSecret = params.get('payment_intent_client_secret');
+    const status = params.get('redirect_status');
+
+    if (clientSecret && status === 'succeeded') {
+      // 1. Success! Clear cart
+      setCartItems([]);
+      // 2. Open cart directly to success step
+      setCartInitialStep('success');
+      setIsCartOpen(true);
+      // 3. Clean up URL
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }, []);
 
   // Scroll to top when view changes
   useEffect(() => {
@@ -262,6 +280,7 @@ function App() {
         t={t}
         language={language}
         onOpenSizeGuide={openSizeGuide}
+        initialStep={cartInitialStep}
       />
       {/* Hidden Music Player */}
       {isMusicPlaying && (
