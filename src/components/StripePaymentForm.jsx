@@ -105,14 +105,14 @@ function CheckoutForm({ total, email: initialEmail, items, deliveryDetails, onSu
                     Card Details
                 </label>
                 <div style={{
-                    padding: 'var(--space-3)',
+                    padding: '12px',
                     border: '1px solid var(--color-border)',
-                    borderRadius: '2px',
+                    borderRadius: '4px',
                     backgroundColor: 'var(--color-bg-base)',
-                    minHeight: '45px', // Ensure explicit height for mobile browsers
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'center'
+                    height: '44px',
+                    overflow: 'visible',
+                    position: 'relative',
+                    zIndex: 1
                 }}>
                     <CardElement options={CARD_ELEMENT_OPTIONS} />
                 </div>
