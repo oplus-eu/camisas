@@ -4,12 +4,18 @@ import { Elements, CardElement, useStripe, useElements } from '@stripe/react-str
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
+// Provide the font URL to Stripe's iframe so it can load it on all devices (incl. mobile)
+const STRIPE_FONTS = [
+    { cssSrc: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap' }
+];
+
 const CARD_ELEMENT_OPTIONS = {
     style: {
         base: {
             color: '#e5e5e5',
-            fontFamily: '"Inter", system-ui, sans-serif',
+            fontFamily: 'Inter, system-ui, sans-serif',
             fontSize: '16px',
+            lineHeight: '24px',
             '::placeholder': { color: '#737373' },
         },
         invalid: { color: '#ef4444', iconColor: '#ef4444' },
@@ -107,9 +113,14 @@ function CheckoutForm({ total, email: initialEmail, items, deliveryDetails, onSu
                     padding: 'var(--space-3)',
                     border: '1px solid var(--color-border)',
                     borderRadius: '2px',
-                    backgroundColor: 'var(--color-bg-base)'
+                    backgroundColor: 'var(--color-bg-base)',
+                    minHeight: '44px',
+                    display: 'flex',
+                    alignItems: 'center',
                 }}>
-                    <CardElement options={CARD_ELEMENT_OPTIONS} />
+                    <div style={{ width: '100%' }}>
+                        <CardElement options={CARD_ELEMENT_OPTIONS} />
+                    </div>
                 </div>
                 <p style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)', marginTop: 'var(--space-2)' }}>
                     Test card: 4242 4242 4242 4242 &nbsp;|&nbsp; Any future date &nbsp;|&nbsp; Any CVC
@@ -150,7 +161,7 @@ function CheckoutForm({ total, email: initialEmail, items, deliveryDetails, onSu
 }
 export default function StripePaymentForm({ total, email, items, deliveryDetails, onSuccess, onError }) {
     return (
-        <Elements stripe={stripePromise}>
+        <Elements stripe={stripePromise} options={{ fonts: STRIPE_FONTS }}>
             <CheckoutForm total={total} email={email} items={items} deliveryDetails={deliveryDetails} onSuccess={onSuccess} onError={onError} />
         </Elements>
     );
