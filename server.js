@@ -93,8 +93,8 @@ try {
         }
     });
 
-    // Catch-all React Routing
-    app.get('*', (req, res) => {
+    // Catch-all React Routing (Fixed for Express 5)
+    app.get('*all', (req, res) => {
         const indexPath = resolve(distPath, 'index.html');
         if (existsSync(indexPath)) {
             res.sendFile(indexPath);
