@@ -256,7 +256,7 @@ export default function Cart({ isOpen, onClose, cartItems, onRemoveItem, onUpdat
                 {checkoutStep === 'payment' && (
                     <>
                         {renderCartHeader(t.payment, true)}
-                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflowY: 'auto' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column' }}>
                             <div style={{ padding: 'var(--space-6)' }}>
                                 <StripePaymentForm
                                     total={checkoutTotal}
