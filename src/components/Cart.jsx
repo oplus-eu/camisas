@@ -31,6 +31,12 @@ export default function Cart({ isOpen, onClose, cartItems, onRemoveItem, onUpdat
     const [checkoutTotal, setCheckoutTotal] = useState(0);
 
     useEffect(() => {
+        if (isOpen && initialStep) {
+            setCheckoutStep(initialStep);
+        }
+    }, [isOpen, initialStep]);
+
+    useEffect(() => {
         if (!isOpen) {
             // Wait for transition before resetting form
             const timer = setTimeout(() => {
